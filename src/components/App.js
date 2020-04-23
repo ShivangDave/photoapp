@@ -4,10 +4,10 @@ import jwt from 'jwt-simple';
 
 const BASE_URL = 'http://localhost:3000/api/v1'
 const all_users = BASE_URL + '/users'
-const single_user = all_users + '/8'
+const single_user = all_users + '/9'
+const secret = process.env.REACT_APP_SUPER_SECRET_USER_KEY
 
 const decode = (message) => {
-  const secret = process.env.REACT_APP_SUPER_SECRET_USER_KEY
   message.then(msg => {
     const token = msg.message
     const data = jwt.decode(token,secret)
@@ -37,7 +37,7 @@ const postReq = () => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(user)
+    body: JSON.stringify(jwt.encode(user,secret))
   })
   .then(res => res.json())
 }
